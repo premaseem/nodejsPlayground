@@ -1,13 +1,22 @@
 var fs = require("fs");
 
-//var data = fs.readFileSync('input.txt');
+var events = require('events');
 
-cb = function (err, data) {
-    if (err) return console.error(err);
-    console.log(data.toString());
+
+// Create an eventEmitter object
+var eventEmitter = new events.EventEmitter();
+
+var branEventHandler = function(){
+    console.log("Brag is the best guy says premaseem ");
 }
+eventEmitter.on("bragEvent",branEventHandler)
 
-fs.readFile('input.txt', cb );
-
-//console.log(data.toString());
+fs.readFile('input.txt', function (err, data) {
+    if (err){
+        console.log(err.stack);
+        return;
+    }
+    console.log(data.toString());
+    eventEmitter.emit("bragEvent");
+});
 console.log("Program Ended");
